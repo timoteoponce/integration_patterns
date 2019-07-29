@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/streadway/amqp"
@@ -11,7 +12,14 @@ import (
 // -listen for messages coming to the queue
 // -program waiting for more messages to come
 func main() {
-	conn, err := amqp.Dial("amqp://admin:Password123@159.65.220.217:5672")
+	var user string
+	var pwd string
+	fmt.Print("RabbitMQ username: ")
+	fmt.Scanln(&user)
+	fmt.Print("RabbitMQ password: ")
+	fmt.Scanln(&pwd)
+
+	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@159.65.220.217:5672", user, pwd))
 	failOnError(err, "Failed to connect")
 	defer conn.Close()
 
